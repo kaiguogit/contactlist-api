@@ -1,1 +1,50 @@
-<h1>Home Page</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-2">
+      <!-- List All -->
+      <div class="panel panel-default">
+        <label>List All Contacts </label>
+        <a class="btn btn-primary" id="list-all">List All</a>
+      </div>
+
+      <!-- Search -->
+      <div class="panel panel-default">
+        <form action="/contacts" id="search-contact-form">
+          <label for="keyword">Search by Name or Email</label>
+          <input type="search" name="keyword" id="">
+          <input class="btn btn-primary" type="submit" value="Search">
+        </form>
+      </div>
+      <!-- Create new contact -->
+      <div class="panel panel-default">
+        <div class="panel-heading">Create New Contact</div>
+        <form action="/contacts" id="create-contact-form">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="">
+          <input type="submit" class="btn btn-primary" value="Create"></input>
+        </form>
+      </div>
+
+    </div>
+    <div class="col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Contact List</h3>
+        </div>
+        <div class="panel-body" id="contact-list-wrap">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+
