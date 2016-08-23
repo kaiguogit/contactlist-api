@@ -35,20 +35,25 @@ $(function() {
     return result;
   };
 
+  var source = $("#contact-list-table-script").html();
+  var tableTemplate = Handlebars.compile(source);
+      source = $("#contact-list-table-row-script").html();
+  var rowTemplate = Handlebars.compile(source);
+
   //create a table and append to page
   function buildTable(list){
-    var table = $('<table></table>').addClass('contact-list table table-striped');
-    var thead = $('<thead><tr><th>Name</th><th>Email</th><th>Created At</th></tr></thead>')
-    var tbody = $('<tbody></tbody>')
+    var rows = "";
     for(i=0; i<list.length; i++){  
-        var row = $('<tr></tr>').addClass('contact-list-item');
-        var contactName = $('<td></td>').addClass('contact-list-name').text(list[i].name);
-        var contactEmail = $('<td></td>').addClass('contact-list-name').text(list[i].email);
-        var contactCreatedAt = $('<td></td>').addClass('contact-list-name').text(list[i].created_at);
-        row.append(contactName).append(contactEmail).append(contactCreatedAt);
-        tbody.append(row);
+        var context = {
+                    name: list[i].name,
+                    email: list[i].email, 
+                    created_at: list[i].created_at,
+                    id: list[i].id
+                  };
+        var row = rowTemplate(context);
+        rows += row;
     }
-    table.append(thead).append(tbody);
+    var table = tableTemplate({rows: rows});
     $('#contact-list-wrap').html(table);
   }
 
@@ -67,6 +72,23 @@ $(function() {
     });
   });
 
+  //Delete a contact
+  $('body').on('click', '.contact-list-table .remove_button', function(e){
+    e.preventDefault();
+    var $row = $($(this).parents("tr"));
+    var id = $row.data("id");
+    $.ajax({
+      url: '/contacts/' + id,
+      method: "delete",
+      success: function(data){
+        if(data.success){
+          $row.remove();
+        }
+      },
+      errors: function(){
+      }
+    });
+  });
 });
 
 

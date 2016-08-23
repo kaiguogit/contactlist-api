@@ -23,6 +23,14 @@ get '/contacts/:id' do
 
 end
 
+delete '/contacts/:id' do
+  if Contact.destroy(params[:id])
+    json({success: true})
+  else
+    json({success: false})
+  end
+end
+
 helpers do
 
   def format_date(date)

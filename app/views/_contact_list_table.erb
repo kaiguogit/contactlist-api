@@ -1,0 +1,27 @@
+<script id="contact-list-table-script" type="text/x-handlebars-template">
+  <table class="table table-striped contact-list-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Create_At</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{{rows}}}
+    </tbody>
+  </table>
+</script>
+
+<script id="contact-list-table-row-script" type="text/x-handlebars-template">
+  <tr data-id={{id}}>
+    <td>{{name}}</td>
+    <td>{{email}}</td>
+    <td>{{created_at}}</td>
+    <td>
+      <a class="remove_button" href="">
+        <span class="glyphicon glyphicon-remove-sign"></span>
+      </a>
+    </td>
+  </tr>
+</script>
