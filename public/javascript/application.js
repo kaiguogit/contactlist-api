@@ -7,7 +7,8 @@ $(function() {
 
   //listenner search contact form 
   $('#search-contact-form').submit(function(event){
-    event.preventDefault();    var $form = $(this);
+    event.preventDefault();    
+    var $form = $(this);
     listAllContacts($form.find('input[name="keyword"]').val());
   });
 
@@ -23,6 +24,7 @@ $(function() {
   // Get all contact
   var getAllContacts = function(keyword){
     var result = null;
+    spinnerShow();
     $.ajax({
       async: false,
       url: "/contacts",
@@ -30,6 +32,8 @@ $(function() {
       data: {keyword: keyword},
       success: function(data){
         result = data;
+        setTimeout(spinnerHide,500);
+        
       }
     });
     return result;
@@ -54,7 +58,8 @@ $(function() {
         rows += row;
     }
     var table = tableTemplate({rows: rows});
-    $('#contact-list-wrap').html(table);
+    $('.contact-list-table').remove();
+    $('#contact-list-wrap').append(table);
   }
 
 
@@ -62,11 +67,13 @@ $(function() {
   $('#create-contact-form').submit(function(event){
     var $form = $(this);
     event.preventDefault();
+    spinnerShow();
     $.ajax({
       url: $form.attr('action'),
       method: "post",
       data: $form.serialize(),
       success: function(data){
+        spinnerHide();
         listAllContacts();
       }
     });
@@ -75,12 +82,14 @@ $(function() {
   //Delete a contact
   $('body').on('click', '.contact-list-table .remove_button', function(e){
     e.preventDefault();
+    spinnerShow();
     var $row = $($(this).parents("tr"));
     var id = $row.data("id");
     $.ajax({
       url: '/contacts/' + id,
       method: "delete",
       success: function(data){
+        spinnerHide();
         if(data.success){
           $row.remove();
         }
@@ -89,6 +98,15 @@ $(function() {
       }
     });
   });
+
+  var spinnerShow = function(){
+    $('#spinner').removeClass("hidden");
+    $('#spinner').addClass("visible");
+  }
+  var spinnerHide = function(){
+    $('#spinner').removeClass("visible");
+    $('#spinner').addClass("hidden");
+  }
 });
 
 
